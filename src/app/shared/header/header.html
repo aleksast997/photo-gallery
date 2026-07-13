@@ -1,0 +1,41 @@
+<mat-toolbar color="primary" class="header">
+  <span class="header__brand">
+    <mat-icon aria-hidden="true">photo_library</mat-icon>
+    <span class="header__title">Photo Gallery</span>
+  </span>
+
+  <nav class="header__nav" aria-label="Primary">
+    <a
+      mat-button
+      routerLink="/"
+      routerLinkActive="header__link--active"
+      [routerLinkActiveOptions]="{ exact: true }"
+    >
+      <mat-icon aria-hidden="true">collections</mat-icon>
+      Photos
+    </a>
+
+    <a mat-button routerLink="/favorites" routerLinkActive="header__link--active">
+      <mat-icon
+        aria-hidden="true"
+        [matBadge]="favoritesCount()"
+        [matBadgeHidden]="favoritesCount() === 0"
+        matBadgeColor="accent"
+        matBadgeSize="small"
+        >favorite</mat-icon
+      >
+      Favorites
+    </a>
+  </nav>
+
+  <span class="header__spacer"></span>
+
+  <button
+    mat-icon-button
+    type="button"
+    (click)="toggleTheme.emit()"
+    [attr.aria-label]="theme() === 'dark' ? 'Switch to light theme' : 'Switch to dark theme'"
+  >
+    <mat-icon>{{ theme() === 'dark' ? 'light_mode' : 'dark_mode' }}</mat-icon>
+  </button>
+</mat-toolbar>

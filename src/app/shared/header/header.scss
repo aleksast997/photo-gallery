@@ -1,0 +1,41 @@
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.header__brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 500;
+}
+
+.header__title {
+  white-space: nowrap;
+}
+
+.header__nav {
+  display: inline-flex;
+  gap: 0.25rem;
+  margin-left: 1rem;
+}
+
+.header__spacer {
+  flex: 1 1 auto;
+}
+
+// Highlight the active view (exact match for Photos, prefix match for Favorites).
+.header__link--active {
+  background: color-mix(in srgb, currentColor 18%, transparent);
+  font-weight: 600;
+}
+
+@media (max-width: 599px) {
+  .header__title {
+    display: none;
+  }
+}
