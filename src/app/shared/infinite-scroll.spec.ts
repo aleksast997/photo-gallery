@@ -18,7 +18,9 @@ class MockIntersectionObserver {
   observe(el: Element): void {
     this.elements.push(el);
   }
-  unobserve(): void {}
+  unobserve(): void {
+    /* not exercised by these tests */
+  }
   disconnect(): void {
     this.disconnected = true;
   }

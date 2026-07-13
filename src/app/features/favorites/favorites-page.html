@@ -6,7 +6,7 @@
   } @else {
     <div class="favorites__grid">
       @for (photo of photos(); track photo.id) {
-        <app-photo-card [photo]="photo" [favorited]="true" (select)="openPhoto($event)" />
+        <app-photo-card [photo]="photo" [favorited]="true" (photoSelected)="openPhoto($event)" />
       }
     </div>
   }

@@ -45,7 +45,7 @@ describe('PhotoCard', () => {
   it('emits select with its photo on click', () => {
     const fixture = render();
     let selected: Photo | undefined;
-    fixture.componentInstance.select.subscribe((p) => (selected = p));
+    fixture.componentInstance.photoSelected.subscribe((p) => (selected = p));
     fixture.nativeElement.querySelector('button')!.click();
     expect(selected).toEqual(photo);
   });

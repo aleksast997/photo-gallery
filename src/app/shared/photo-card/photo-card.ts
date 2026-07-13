@@ -18,9 +18,9 @@ import { Photo } from '../../core/models/photo';
 export class PhotoCard {
   readonly photo = input.required<Photo>();
   readonly favorited = input(false);
-  readonly select = output<Photo>();
+  readonly photoSelected = output<Photo>();
 
   protected onSelect(): void {
-    this.select.emit(this.photo());
+    this.photoSelected.emit(this.photo());
   }
 }

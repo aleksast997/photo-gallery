@@ -6,7 +6,7 @@
       <app-photo-card
         [photo]="photo"
         [favorited]="isFavorite(photo.id)"
-        (select)="onSelect($event)"
+        (photoSelected)="onSelect($event)"
       />
     }
   </div>
