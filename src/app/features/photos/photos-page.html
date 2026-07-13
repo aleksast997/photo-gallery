@@ -1,0 +1,35 @@
+<section class="photos">
+  <h1 class="photos__title">Photos</h1>
+
+  <div class="photos__grid">
+    @for (photo of photos(); track photo.id) {
+      <app-photo-card
+        [photo]="photo"
+        [favorited]="isFavorite(photo.id)"
+        (select)="onSelect($event)"
+      />
+    }
+  </div>
+
+  @if (error()) {
+    <div class="photos__status" role="alert">
+      <p>Couldn't load photos.</p>
+      <button mat-stroked-button type="button" (click)="retry()">Retry</button>
+    </div>
+  } @else if (loading()) {
+    <div class="photos__status" aria-live="polite">
+      <mat-spinner [diameter]="48" />
+      <span>Loading photos…</span>
+    </div>
+  } @else if (ended()) {
+    <p class="photos__status" aria-live="polite">You've reached the end.</p>
+  }
+
+  <!-- Infinite-scroll sentinel: triggers the next page as it nears the viewport. -->
+  <div
+    class="photos__sentinel"
+    appInfiniteScroll
+    [disabled]="loading() || ended() || error()"
+    (scrolled)="loadMore()"
+  ></div>
+</section>
