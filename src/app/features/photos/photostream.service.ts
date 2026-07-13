@@ -6,12 +6,13 @@ import { Photo } from '../../core/models/photo';
 const PAGE_SIZE = 30;
 
 /**
- * Feature service (Layer 2) owning the photostream as signal state. It is the
- * only caller of the API layer for the stream and is provided at the Photos route
- * so each visit starts a fresh stream. Pages are fetched sequentially and
- * appended; an empty page marks the end.
+ * Feature service (Layer 2) owning the photostream as signal state, and the only
+ * caller of the API layer for the stream. It is an app singleton so the loaded
+ * feed and scroll position survive navigating away from and back to the Photos
+ * page (the page only fetches the first page when the stream is still empty).
+ * Pages are fetched sequentially and appended; an empty page marks the end.
  */
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class PhotostreamService {
   private readonly api = inject(PhotoApiService);
 
@@ -20,6 +21,7 @@ export class PhotostreamService {
   private readonly _ended = signal(false);
   private readonly _error = signal(false);
   private nextPage = 1;
+  private scrollOffset = 0;
 
   readonly photos = this._photos.asReadonly();
   readonly loading = this._loading.asReadonly();
@@ -54,5 +56,14 @@ export class PhotostreamService {
   retry(): Promise<void> {
     this._error.set(false);
     return this.loadMore();
+  }
+
+  /** Last known scroll offset of the Photos page, restored when returning to it. */
+  getScrollOffset(): number {
+    return this.scrollOffset;
+  }
+
+  saveScrollOffset(offset: number): void {
+    this.scrollOffset = offset;
   }
 }

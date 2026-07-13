@@ -32,13 +32,15 @@ class FakeStore implements KeyValueStore {
 
 describe('PhotosPage', () => {
   let snackOpen: ReturnType<typeof vi.fn>;
+  let getPage: ReturnType<typeof vi.fn>;
 
   beforeEach(async () => {
     snackOpen = vi.fn();
+    getPage = vi.fn().mockResolvedValue([photo('1'), photo('2')]);
     await TestBed.configureTestingModule({
       imports: [PhotosPage],
       providers: [
-        { provide: PhotoApiService, useValue: { getPage: () => Promise.resolve([photo('1'), photo('2')]) } },
+        { provide: PhotoApiService, useValue: { getPage } },
         { provide: KEY_VALUE_STORE, useValue: new FakeStore() },
         { provide: MatSnackBar, useValue: { open: snackOpen } },
       ],
@@ -67,5 +69,16 @@ describe('PhotosPage', () => {
 
     expect(favorites.count()).toBe(1);
     expect(snackOpen).toHaveBeenCalledWith('Added to favorites', 'Dismiss', expect.anything());
+  });
+
+  it('preserves the loaded feed without refetching when the page is revisited', async () => {
+    const first = await render();
+    expect(getPage).toHaveBeenCalledTimes(1);
+    first.destroy();
+
+    const second = await render();
+    const cards = (second.nativeElement as HTMLElement).querySelectorAll('app-photo-card');
+    expect(cards).toHaveLength(2);
+    expect(getPage).toHaveBeenCalledTimes(1);
   });
 });

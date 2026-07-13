@@ -66,4 +66,10 @@ describe('PhotostreamService', () => {
     expect(service.error()).toBe(false);
     expect(service.photos().map((p) => p.id)).toEqual(['1']);
   });
+
+  it('stores and returns the saved scroll offset', () => {
+    expect(service.getScrollOffset()).toBe(0);
+    service.saveScrollOffset(640);
+    expect(service.getScrollOffset()).toBe(640);
+  });
 });
