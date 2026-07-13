@@ -1,0 +1,25 @@
+<button
+  type="button"
+  class="photo-card"
+  (click)="onSelect()"
+  [attr.aria-pressed]="favorited()"
+  [attr.aria-label]="'Photo by ' + photo().author + (favorited() ? ', in favorites' : '')"
+>
+  <img
+    class="photo-card__img"
+    [src]="photo().thumbUrl"
+    [alt]="'Photo by ' + photo().author"
+    width="500"
+    height="500"
+    loading="lazy"
+    decoding="async"
+  />
+
+  @if (favorited()) {
+    <span class="photo-card__badge" aria-hidden="true">
+      <mat-icon>favorite</mat-icon>
+    </span>
+  }
+
+  <span class="photo-card__author">{{ photo().author }}</span>
+</button>
