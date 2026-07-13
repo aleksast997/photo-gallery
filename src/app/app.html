@@ -1,5 +1,8 @@
-<!-- TODO(slice 2): bind [favoritesCount] to FavoritesService.count() once it exists. -->
-<app-header [favoritesCount]="0" [theme]="theme()" (toggleTheme)="onToggleTheme()" />
+<app-header
+  [favoritesCount]="favoritesCount()"
+  [theme]="theme()"
+  (toggleTheme)="onToggleTheme()"
+/>
 
 <main class="app-content">
   <router-outlet />
