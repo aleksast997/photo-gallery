@@ -1,7 +1,13 @@
-.header {
+// Stick the whole header to the top: the host's parent (app-root) spans the full
+// page height, so there's room for it to stay pinned while the content scrolls.
+:host {
   position: sticky;
   top: 0;
   z-index: 10;
+  display: block;
+}
+
+.header {
   display: flex;
   gap: 0.5rem;
   align-items: center;
