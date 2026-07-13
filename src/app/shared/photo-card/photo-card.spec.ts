@@ -34,8 +34,12 @@ describe('PhotoCard', () => {
   });
 
   it('shows the favorited badge only when favorited', () => {
-    expect((render(false).nativeElement as HTMLElement).querySelector('.photo-card__badge')).toBeNull();
-    expect((render(true).nativeElement as HTMLElement).querySelector('.photo-card__badge')).not.toBeNull();
+    expect(
+      (render(false).nativeElement as HTMLElement).querySelector('.photo-card__badge'),
+    ).toBeNull();
+    expect(
+      (render(true).nativeElement as HTMLElement).querySelector('.photo-card__badge'),
+    ).not.toBeNull();
   });
 
   it('emits select with its photo on click', () => {

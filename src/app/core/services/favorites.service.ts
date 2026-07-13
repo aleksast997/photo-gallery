@@ -16,9 +16,7 @@ const FAVORITES_STORAGE_KEY = 'photo-gallery.favorites';
 export class FavoritesService {
   private readonly store = inject(KEY_VALUE_STORE);
 
-  private readonly _photos = signal<Photo[]>(
-    parseFavorites(this.store.get(FAVORITES_STORAGE_KEY)),
-  );
+  private readonly _photos = signal<Photo[]>(parseFavorites(this.store.get(FAVORITES_STORAGE_KEY)));
 
   /** All favorites, most-recently-added first. */
   readonly photos = this._photos.asReadonly();

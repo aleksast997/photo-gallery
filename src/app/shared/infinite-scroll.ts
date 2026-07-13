@@ -1,4 +1,12 @@
-import { DestroyRef, Directive, ElementRef, afterNextRender, inject, input, output } from '@angular/core';
+import {
+  DestroyRef,
+  Directive,
+  ElementRef,
+  afterNextRender,
+  inject,
+  input,
+  output,
+} from '@angular/core';
 
 /**
  * Dumb, dependency-free infinite-scroll trigger. Place it on a sentinel element

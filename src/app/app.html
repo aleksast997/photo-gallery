@@ -1,8 +1,4 @@
-<app-header
-  [favoritesCount]="favoritesCount()"
-  [theme]="theme()"
-  (toggleTheme)="onToggleTheme()"
-/>
+<app-header [favoritesCount]="favoritesCount()" [theme]="theme()" (toggleTheme)="onToggleTheme()" />
 
 <main class="app-content">
   <router-outlet />

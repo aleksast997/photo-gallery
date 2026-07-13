@@ -15,7 +15,14 @@ import { ThemeMode } from '../../core/models/theme';
  */
 @Component({
   selector: 'app-header',
-  imports: [RouterLink, RouterLinkActive, MatToolbarModule, MatButtonModule, MatIconModule, MatBadgeModule],
+  imports: [
+    RouterLink,
+    RouterLinkActive,
+    MatToolbarModule,
+    MatButtonModule,
+    MatIconModule,
+    MatBadgeModule,
+  ],
   templateUrl: './header.html',
   styleUrl: './header.scss',
 })
