@@ -1,0 +1,26 @@
+@if (photo(); as p) {
+  <section class="detail">
+    <div class="detail__top">
+      <a mat-button routerLink="/favorites">
+        <mat-icon>arrow_back</mat-icon>
+        Back to favorites
+      </a>
+    </div>
+
+    <img class="detail__img" [src]="p.fullUrl" [alt]="'Photo by ' + p.author" />
+
+    <div class="detail__bar">
+      <span class="detail__author">{{ p.author }}</span>
+      <button mat-flat-button color="warn" type="button" (click)="remove()">
+        <mat-icon>heart_broken</mat-icon>
+        Remove from favorites
+      </button>
+    </div>
+  </section>
+} @else {
+  <section class="detail detail--missing">
+    <h1>Photo not found</h1>
+    <p>This photo isn't in your favorites.</p>
+    <a mat-stroked-button routerLink="/favorites">Back to favorites</a>
+  </section>
+}
