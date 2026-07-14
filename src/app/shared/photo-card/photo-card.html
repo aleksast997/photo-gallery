@@ -5,15 +5,30 @@
   [attr.aria-pressed]="favorited()"
   [attr.aria-label]="'Photo by ' + photo().author + (favorited() ? ', in favorites' : '')"
 >
-  <img
-    class="photo-card__img"
-    [src]="photo().thumbUrl"
-    [alt]="'Photo by ' + photo().author"
-    width="500"
-    height="500"
-    loading="lazy"
-    decoding="async"
-  />
+  @if (!failed()) {
+    <img
+      class="photo-card__img"
+      [class.photo-card__img--loaded]="loaded()"
+      [src]="photo().thumbUrl"
+      [alt]="'Photo by ' + photo().author"
+      width="500"
+      height="500"
+      loading="lazy"
+      decoding="async"
+      (load)="onLoad()"
+      (error)="onError()"
+    />
+  }
+
+  @if (!loaded() && !failed()) {
+    <span class="photo-card__skeleton" aria-hidden="true"></span>
+  }
+
+  @if (failed()) {
+    <span class="photo-card__error" aria-hidden="true">
+      <mat-icon>image_not_supported</mat-icon>
+    </span>
+  }
 
   @if (favorited()) {
     <span class="photo-card__badge" aria-hidden="true">

@@ -49,4 +49,29 @@ describe('PhotoCard', () => {
     fixture.nativeElement.querySelector('button')!.click();
     expect(selected).toEqual(photo);
   });
+
+  it('shows a shimmer skeleton until the image loads, then hides it', () => {
+    const fixture = render();
+    const el = fixture.nativeElement as HTMLElement;
+    expect(el.querySelector('.photo-card__skeleton')).not.toBeNull();
+    expect(el.querySelector('.photo-card__img--loaded')).toBeNull();
+
+    el.querySelector('img')!.dispatchEvent(new Event('load'));
+    fixture.detectChanges();
+
+    expect(el.querySelector('.photo-card__skeleton')).toBeNull();
+    expect(el.querySelector('.photo-card__img--loaded')).not.toBeNull();
+  });
+
+  it('shows a fallback tile instead of the image when it fails to load', () => {
+    const fixture = render();
+    const el = fixture.nativeElement as HTMLElement;
+
+    el.querySelector('img')!.dispatchEvent(new Event('error'));
+    fixture.detectChanges();
+
+    expect(el.querySelector('.photo-card__error')).not.toBeNull();
+    expect(el.querySelector('img')).toBeNull();
+    expect(el.querySelector('.photo-card__skeleton')).toBeNull();
+  });
 });
