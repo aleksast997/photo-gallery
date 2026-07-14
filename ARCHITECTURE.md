@@ -85,7 +85,11 @@ rule for one component, because it keeps the header trivially reusable and testa
 
 - **Custom infinite scroll.** I implemented it myself with an `IntersectionObserver` watching
   a sentinel element at the bottom of the list (with a preload margin), gated by a `disabled`
-  input while loading or once the stream ends. No third-party scroll library.
+  input while loading or once the stream ends — no third-party scroll library. One subtlety I
+  hit (my E2E caught it): the observer only reports enter/leave transitions, so if the first page
+  doesn't fill the viewport the sentinel stays in view and nothing else loads. The directive
+  tracks intersection as a signal and re-checks it with an `effect`, so it keeps filling until
+  the sentinel scrolls off-screen or the stream ends.
 
 - **Emulated latency.** The API adds a random 200–300 ms delay to every fetch so the loading
   states are real and visible, as the brief asked.
@@ -110,17 +114,40 @@ rule for one component, because it keeps the header trivially reusable and testa
 - **Routing.** Standalone, lazily-loaded route components, with `withComponentInputBinding()`
   so `/photos/:id` binds the route param straight to a component input.
 
+- **Resilience.** The API layer bounds every request with a 10s `timeout` (which also aborts the
+  in-flight request), so a hung or pathologically slow response becomes a normal rejection the UI
+  recovers from instead of an endless spinner. Failed loads surface an error state with **Retry**;
+  each photo tile shows a shimmer skeleton while loading and a muted fallback tile if the image
+  fails, rather than the browser's broken-image glyph.
+
+- **Offline lazy routes.** A failed dynamic `import()` (a lazy route's chunk) poisons that module
+  record for the page's lifetime, so it keeps failing even after reconnecting. A router
+  `withNavigationErrorHandler` catches it: offline — or for a non-chunk error — it shows a
+  dismissible message; once back online it does a full document load of the target URL, which
+  fetches a fresh module graph and recovers.
+
 ## Testing
 
-Every unit is covered with Vitest: the mapper and guards, the API service (paging, mapping,
-filtering invalid data), the storage layer, all three feature services, the infinite-scroll
+**Unit (Vitest).** The mapper and guards, the API service (paging, mapping, filtering invalid
+data, timeout/abort), the storage layer, all three feature services, the infinite-scroll
 directive (against a mocked `IntersectionObserver`), and every page/component. Services are
 tested with a fake `KeyValueStore`; components with stubbed collaborators.
+
+**End-to-end (Playwright).** The core user flows against the built app: paging the stream to its
+end, adding to favorites, the error-and-retry path, favorites persistence across a reload plus the
+detail page and removal, the theme toggle, and the active-nav highlight. I mock the Picsum
+endpoints with `page.route`, so the suite is deterministic and independent of the live service —
+which also means it runs the same in CI. (It's how I caught the infinite-scroll fill bug above.)
+
+**CI.** GitHub Actions runs lint, the unit tests, a production build, and the E2E suite on every
+push and pull request.
 
 ## What I'd do next
 
 - Restore scroll on the _browser_ back button too (the router resets scroll on link
   navigation, so that path currently isn't covered).
-- A short empty/error illustration instead of plain text.
+- Cross-browser E2E (Firefox/WebKit) and a coverage report in CI.
+- A service worker (`@angular/pwa`) to precache route chunks, so lazy navigation works fully
+  offline rather than only recovering once reconnected.
 - If the favorites set grew large, revisit the storage choice (IndexedDB) and virtualize the
   grids.
