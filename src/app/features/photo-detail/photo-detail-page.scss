@@ -2,23 +2,30 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 16px;
+  gap: 12px;
+  // Fit within the viewport below the sticky header and the app padding, so the
+  // Remove button stays reachable without scrolling. The image flexes to fill
+  // whatever space is left between the back link and the action bar.
+  height: calc(100dvh - 96px);
 }
 
 .detail__top {
+  flex: 0 0 auto;
   align-self: flex-start;
   width: 100%;
 }
 
 .detail__img {
+  flex: 1 1 auto;
+  min-height: 0;
   max-width: 100%;
-  max-height: calc(100vh - 180px);
   object-fit: contain;
   border-radius: 8px;
   box-shadow: 0 4px 20px rgb(0 0 0 / 25%);
 }
 
 .detail__bar {
+  flex: 0 0 auto;
   display: flex;
   flex-wrap: wrap;
   align-items: center;
@@ -32,6 +39,7 @@
 }
 
 .detail--missing {
+  height: auto;
   padding: 48px 16px;
   text-align: center;
 }
