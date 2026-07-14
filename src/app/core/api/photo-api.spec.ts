@@ -1,6 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { provideHttpClient } from '@angular/common/http';
 import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
+import { vi } from 'vitest';
 
 import { PhotoApiService } from './photo-api';
 
@@ -40,5 +41,21 @@ describe('PhotoApiService', () => {
     const promise = api.getPage(1, 5);
     httpMock.expectOne(() => true).flush({ unexpected: 'shape' });
     expect(await promise).toEqual([]);
+  });
+
+  it('rejects and cancels the request when it exceeds the timeout', async () => {
+    vi.useFakeTimers();
+    try {
+      const promise = api.getPage(1, 30);
+      const req = httpMock.expectOne((r) => r.url === 'https://picsum.photos/v2/list');
+      const rejection = expect(promise).rejects.toThrow();
+
+      await vi.advanceTimersByTimeAsync(10_000);
+
+      await rejection;
+      expect(req.cancelled).toBe(true);
+    } finally {
+      vi.useRealTimers();
+    }
   });
 });
