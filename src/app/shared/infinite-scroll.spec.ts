@@ -70,6 +70,7 @@ describe('InfiniteScroll', () => {
   it('emits scrolled when the sentinel intersects', async () => {
     const fixture = await setup();
     MockIntersectionObserver.instances[0].emit(true);
+    fixture.detectChanges();
     expect(fixture.componentInstance.hits).toBe(1);
   });
 
@@ -78,12 +79,14 @@ describe('InfiniteScroll', () => {
     fixture.componentInstance.disabled.set(true);
     fixture.detectChanges();
     MockIntersectionObserver.instances[0].emit(true);
+    fixture.detectChanges();
     expect(fixture.componentInstance.hits).toBe(0);
   });
 
   it('does not emit when the sentinel is not intersecting', async () => {
     const fixture = await setup();
     MockIntersectionObserver.instances[0].emit(false);
+    fixture.detectChanges();
     expect(fixture.componentInstance.hits).toBe(0);
   });
 
