@@ -57,8 +57,8 @@ export class PhotosPage {
 
       // Track the scroll position continuously while browsing. Registered as a
       // passive DOM listener (not an Angular host binding) so frequent scroll
-      // events don't trigger change detection. Capturing here — rather than on
-      // destroy — avoids reading 0 after the grid has been detached.
+      // events don't trigger change detection. Capturing here rather than on
+      // destroy avoids reading 0 after the grid has been detached.
       const onScroll = () => this.stream.saveScrollOffset(win.scrollY);
       win.addEventListener('scroll', onScroll, { passive: true });
       this.destroyRef.onDestroy(() => win.removeEventListener('scroll', onScroll));

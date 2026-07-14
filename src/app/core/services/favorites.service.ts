@@ -10,7 +10,7 @@ const FAVORITES_STORAGE_KEY = 'photo-gallery.favorites';
  * Feature service (Layer 2) owning the favorites collection as signal state.
  * State is hydrated synchronously from the storage port on startup and written
  * back through it on every change. All mutations go through this service's
- * methods — nothing outside can change the collection.
+ * methods nothing outside can change the collection.
  */
 @Injectable({ providedIn: 'root' })
 export class FavoritesService {

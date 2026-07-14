@@ -1,7 +1,7 @@
 import { Photo } from '../models/photo';
 
 /**
- * Serializable snapshot of a favorited photo — the localStorage shape, kept
+ * Serializable snapshot of a favorited photo the localStorage shape, kept
  * decoupled from the domain `Photo` so the persistence format can evolve
  * independently. Photos are stored whole (including URLs) so the single-photo
  * page renders on a cold load without any network call.

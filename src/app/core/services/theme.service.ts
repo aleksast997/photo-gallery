@@ -9,7 +9,7 @@ const THEME_STORAGE_KEY = 'photo-gallery.theme';
  * Owns the light/dark theme as signal state (Layer 2). The theme is hydrated
  * synchronously from persistence (falling back to the OS preference), applied to
  * `<html>` via `color-scheme` — which drives Angular Material's M3 system
- * variables — and persisted on every change.
+ * variables and persisted on every change.
  */
 @Injectable({ providedIn: 'root' })
 export class ThemeService {

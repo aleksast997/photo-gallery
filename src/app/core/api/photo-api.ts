@@ -13,7 +13,7 @@ const REQUEST_TIMEOUT_MS = 10_000;
 
 /**
  * API layer (Layer 1): the single source of truth for HTTP. It is the only place
- * allowed to touch `HttpClient`/RxJS. Observables never leak out — every method
+ * allowed to touch `HttpClient`/RxJS. Observables never leak out every method
  * resolves to plain, mapped domain data via a `Promise`. A random 200–300 ms
  * delay is added to emulate real-world latency.
  *
