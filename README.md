@@ -39,10 +39,11 @@ Requires Node `^20.19`, `^22.12`, or `>=24` and npm.
 ```bash
 npm install      # install dependencies
 npm start        # dev server at http://localhost:4200
-npm test         # unit tests (Vitest, single run)
-npm run lint     # ESLint
-npm run build    # production build to dist/
-npm run e2e      # end-to-end tests (Playwright; boots the app itself)
+npm test          # unit tests (Vitest, single run)
+npm run test:coverage  # unit tests with a V8 coverage report (coverage/)
+npm run lint      # ESLint
+npm run build     # production build to dist/
+npm run e2e       # end-to-end tests (Playwright; boots the app itself)
 ```
 
 The first E2E run needs the browser once: `npx playwright install chromium`.
@@ -105,7 +106,8 @@ e2e/                     # Playwright end-to-end tests (+ mocked Picsum helper)
 ## Testing
 
 - **Unit (Vitest):** the mapper, guards, API service (incl. timeout/abort), storage, all feature
-  services, the infinite-scroll directive, and every page/component. Run with `npm test`.
+  services, the infinite-scroll directive, and every page/component. Run with `npm test`, or
+  `npm run test:coverage` for a V8 coverage report (~95% lines; a floor is enforced in CI).
 - **End-to-end (Playwright):** the core flows — paging to the end, add-to-favorites, error &
   retry, favorites persistence + detail + remove, theme toggle, and the active-nav highlight.
   Picsum is mocked for deterministic, offline-safe runs. Run with `npm run e2e`.

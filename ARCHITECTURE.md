@@ -139,14 +139,19 @@ detail page and removal, the theme toggle, and the active-nav highlight. I mock 
 endpoints with `page.route`, so the suite is deterministic and independent of the live service —
 which also means it runs the same in CI. (It's how I caught the infinite-scroll fill bug above.)
 
-**CI.** GitHub Actions runs lint, the unit tests, a production build, and the E2E suite on every
-push and pull request.
+**Coverage.** Unit runs emit a V8 coverage report (`npm run test:coverage`), currently ~95% of
+lines, with a floor enforced in CI so it can't silently regress. I don't measure line coverage
+for E2E — Playwright is black-box, and its value is functional (which flows are exercised), not
+lines hit.
+
+**CI.** GitHub Actions runs lint, the unit tests (with the coverage gate), a production build,
+and the E2E suite on every push and pull request.
 
 ## What I'd do next
 
 - Restore scroll on the _browser_ back button too (the router resets scroll on link
   navigation, so that path currently isn't covered).
-- Cross-browser E2E (Firefox/WebKit) and a coverage report in CI.
+- Cross-browser E2E (Firefox/WebKit).
 - A service worker (`@angular/pwa`) to precache route chunks, so lazy navigation works fully
   offline rather than only recovering once reconnected.
 - If the favorites set grew large, revisit the storage choice (IndexedDB) and virtualize the
