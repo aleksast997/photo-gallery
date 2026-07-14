@@ -35,4 +35,26 @@ body {
   margin: 0;
   height: 100%;
 }
+
+// Ease the light/dark swap so toggling the theme doesn't hard-flash. Only
+// colour-related properties transition (never layout), and transitions don't
+// fire on first paint — so this only kicks in when the theme actually changes.
+*,
+*::before,
+*::after {
+  transition:
+    background-color 0.25s ease,
+    border-color 0.25s ease,
+    color 0.25s ease,
+    fill 0.25s ease;
+}
+
+// Respect users who prefer reduced motion — no theme transition for them.
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    transition: none;
+  }
+}
 /* You can add global styles to this file, and also import other style files */
