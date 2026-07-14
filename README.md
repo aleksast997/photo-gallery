@@ -1,5 +1,7 @@
 # Photo Gallery
 
+[![CI](https://github.com/aleksast997/photo-gallery/actions/workflows/ci.yml/badge.svg)](https://github.com/aleksast997/photo-gallery/actions/workflows/ci.yml)
+
 An Angular photo-library single-page app: an **infinite, random photostream** you can
 scroll endlessly, and a **Favorites** library that **persists across page refreshes** — no
 backend involved. Built with Angular 22 (standalone, zoneless, signals) and Angular Material.
